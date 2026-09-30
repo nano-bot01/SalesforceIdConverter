@@ -66,11 +66,13 @@ npx serve .
 ---
 
 ## Project structure
-
-├── index.html # Markup — three tabs, domain input, all semantic
-├── styles.css # Styles — CSS variables, no framework
-├── app.js # Logic — conversion, validation, bulk, CSV export
+```
+salesforce-id-converter/
+├── index.html      # Markup — three tabs, domain input, all semantic
+├── styles.css      # Styles — CSS variables, no framework
+├── app.js          # Logic — conversion, validation, bulk, CSV export
 └── README.md
+```
 
 
 
