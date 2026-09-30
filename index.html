@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salesforce ID Converter</title>
+
+<link rel="stylesheet" href="src/style.css">
+<script src="src/script.js" defer></script>
+
+</head>
+<body>
+  <main class="card">
+    <h1>Salesforce ID Converter</h1>
+    <p class="subtitle">Convert between 15- and 18-character IDs, validate checksums, and convert in bulk.</p>
+
+    <div class="domain-box">
+      <label for="domain">Your Salesforce domain (optional, for record links)</label>
+      <input id="domain" type="text" spellcheck="false" autocomplete="off"
+             placeholder="acme.lightning.force.com">
+      <div class="domain-note">Kept in memory only for this session. Not saved anywhere.</div>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-panel="single" role="tab">Convert</button>
+      <button class="tab" data-panel="validate" role="tab">Validate</button>
+      <button class="tab" data-panel="bulk" role="tab">Bulk</button>
+    </div>
+
+    <!-- SINGLE -->
+    <section class="panel active" id="single">
+      <div class="field-block">
+        <label for="input">Input</label>
+        <input id="input" type="text" spellcheck="false" autocomplete="off"
+               placeholder="Paste a 15- or 18-character ID" aria-describedby="inputMeta">
+        <div id="inputMeta" class="meta hint" aria-live="polite">Waiting for input</div>
+      </div>
+      <div class="swap-row">
+        <button class="swap-btn" id="swap" title="Move result to input" aria-label="Move result to input">&#8645;</button>
+      </div>
+      <div class="field-block">
+        <label for="output">Output</label>
+        <input id="output" type="text" readonly spellcheck="false" placeholder="Result appears here" aria-describedby="outputMeta">
+        <div id="outputMeta" class="meta hint" aria-live="polite"></div>
+        <div class="btn-row"><button class="btn" id="copy" disabled>Copy result</button></div>
+        <div class="link-out empty" id="singleLink">Add a domain above to get a clickable record link.</div>
+      </div>
+    </section>
+
+    <!-- VALIDATE -->
+    <section class="panel" id="validate">
+      <div class="field-block">
+        <label for="valInput">18-character ID to check</label>
+        <input id="valInput" type="text" spellcheck="false" autocomplete="off"
+               placeholder="Paste an 18-character ID" aria-describedby="valMeta">
+        <div id="valMeta" class="meta hint" aria-live="polite">Recomputes the checksum from the first 15 characters</div>
+        <div class="link-out empty" id="valLink"></div>
+      </div>
+    </section>
+
+    <!-- BULK -->
+    <section class="panel" id="bulk">
+      <div class="field-block">
+        <label for="bulkInput">One ID per line</label>
+        <textarea id="bulkInput" spellcheck="false" placeholder="0035000000AbCdE&#10;001D000000IqhSLIAZ&#10;..."></textarea>
+        <div class="btn-row">
+          <button class="btn" id="bulkRun">Convert all</button>
+          <button class="btn" id="bulkCopy" disabled>Copy all</button>
+          <button class="btn" id="bulkCsv" disabled>Download CSV</button>
+        </div>
+        <div id="bulkMeta" class="meta hint" aria-live="polite"></div>
+      </div>
+      <div id="bulkResultWrap"></div>
+    </section>
+
+  </main>
+
+</body>
+</html>
