@@ -2,8 +2,7 @@
 
 Convert, validate, and bulk-process Salesforce 15 ↔ 18 character IDs.
 
-**[Live Tool →](https://your-project.vercel.app)**  
-*Replace with your actual Vercel URL after deploy.*
+**[Live Tool →](https://salesforceidconverter.vercel.app/)**  
 
 ---
 
