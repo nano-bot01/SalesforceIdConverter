@@ -67,9 +67,12 @@ npx serve .
 ## Project structure
 ```
 salesforce-id-converter/
+├── assets/         # Favicon, OG image, static assets
+├── src/            # Source files
+│   ├── styles.css  # Styles — CSS variables, no framework
+│   └── app.js      # Logic — conversion, validation, bulk, CSV export
 ├── index.html      # Markup — three tabs, domain input, all semantic
-├── styles.css      # Styles — CSS variables, no framework
-├── app.js          # Logic — conversion, validation, bulk, CSV export
+├── LICENSE         # MIT
 └── README.md
 ```
 
