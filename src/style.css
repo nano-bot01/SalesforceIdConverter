@@ -103,4 +103,16 @@
   }
   .footnote code { font-family: ui-monospace, monospace; background: #f2f1ea; padding: 0.05rem 0.3rem; border-radius: 3px; }
 
+    .footer-link {
+        margin-top: 0.6rem;
+        color: var(--muted);
+        font-size: 0.82rem;
+    }
+    .footer-link a {
+        color: var(--accent);
+        text-decoration: none;
+    }
+    .footer-link a:hover {
+        text-decoration: underline;
+    }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
