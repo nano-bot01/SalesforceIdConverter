@@ -1,125 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Salesforce ID Converter — 15 to 18 Digit | Validate | Bulk</title>
-  <meta name="description" content="Convert Salesforce IDs between 15 and 18 characters, validate checksums, detect object types, and bulk-process IDs. Free, instant, runs in your browser.">
-  <meta name="keywords" content="Salesforce ID converter, 15 to 18 digit Salesforce ID, 18 to 15 Salesforce ID, Salesforce ID checksum, Salesforce ID validator, bulk Salesforce ID converter, Salesforce key prefix, Salesforce developer tools">
-  <meta name="author" content="YOUR_NAME">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://salesforceidconverter.vercel.app/">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Salesforce ID Converter — 15 ↔ 18 Digit">
-  <meta property="og:description" content="Convert, validate checksums, detect object types, and bulk-process Salesforce IDs. Free, no login, runs entirely in your browser.">
-  <meta property="og:url" content="https://salesforceidconverter.vercel.app/">
-  <meta property="og:image" content="https://salesforceidconverter.vercel.app/favicon.png">
-  <meta property="og:site_name" content="Salesforce ID Converter">
-
-  <!-- Twitter / X card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Salesforce ID Converter — 15 ↔ 18 Digit">
-  <meta name="twitter:description" content="Convert, validate, and bulk-process Salesforce IDs. Free tool, zero dependencies, runs in the browser.">
-  <meta name="twitter:image" content="https://salesforceidconverter.vercel.app/favicon.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png?v=2">
-
-  <!-- Structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Salesforce ID Converter",
-    "url": "https://salesforceidconverter.vercel.app/",
-    "description": "Convert Salesforce IDs between 15 and 18 characters, validate checksums, detect object types, and bulk-process IDs.",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Any",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "browserRequirements": "Requires JavaScript"
-  }
-  </script>
-
-  <link rel="stylesheet" href="src/style.css">
-  <script src="src/script.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salesforce ID Converter</title>
+<meta name="description" content="Convert, validate, and analyse Salesforce 15 and 18 character IDs. Bulk convert, extract IDs from messy text, generate SOQL IN clauses, and get a full ID breakdown.">
+<link rel="stylesheet" href="src/style.css">
+<script src="src/script.js" defer></script>
 </head>
-
-  
 <body>
-  <main class="card">
-    <h1>Salesforce ID Converter</h1>
-    <p class="subtitle">Convert between 15- and 18-character IDs, validate checksums, and convert in bulk.</p>
+  <main class="card">
+    <h1>Salesforce ID Converter</h1>
+    <p class="subtitle">Convert, validate, bulk-clean, and explain Salesforce IDs.</p>
 
-    <div class="domain-box">
-      <label for="domain">Your Salesforce domain (optional, for record links)</label>
-      <input id="domain" type="text" spellcheck="false" autocomplete="off"
-             placeholder="acme.lightning.force.com">
-      <div class="domain-note">Kept in memory only for this session. Not saved anywhere.</div>
-    </div>
+    <div class="domain-box">
+      <label for="domain">Your Salesforce domain (optional, for record links)</label>
+      <input id="domain" type="text" spellcheck="false" autocomplete="off"
+             placeholder="acme.lightning.force.com">
+      <div class="domain-note">Kept in memory only. Not saved anywhere.</div>
+    </div>
 
-    <div class="tabs" role="tablist">
-      <button class="tab active" data-panel="single" role="tab">Convert</button>
-      <button class="tab" data-panel="validate" role="tab">Validate</button>
-      <button class="tab" data-panel="bulk" role="tab">Bulk</button>
-    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-panel="single" role="tab">Convert</button>
+      <button class="tab" data-panel="validate" role="tab">Validate</button>
+      <button class="tab" data-panel="bulk" role="tab">Bulk</button>
+      <button class="tab" data-panel="cleaner" role="tab">Cleaner</button>
+      <button class="tab" data-panel="soql" role="tab">SOQL IN</button>
+      <button class="tab" data-panel="explain" role="tab">Explain ID</button>
+    </div>
 
-    <!-- SINGLE -->
-    <section class="panel active" id="single">
-      <div class="field-block">
-        <label for="input">Input</label>
-        <input id="input" type="text" spellcheck="false" autocomplete="off"
-               placeholder="Paste a 15- or 18-character ID" aria-describedby="inputMeta">
-        <div id="inputMeta" class="meta hint" aria-live="polite">Waiting for input</div>
-      </div>
-      <div class="swap-row">
-        <button class="swap-btn" id="swap" title="Move result to input" aria-label="Move result to input">&#8645;</button>
-      </div>
-      <div class="field-block">
-        <label for="output">Output</label>
-        <input id="output" type="text" readonly spellcheck="false" placeholder="Result appears here" aria-describedby="outputMeta">
-        <div id="outputMeta" class="meta hint" aria-live="polite"></div>
-        <div class="btn-row"><button class="btn" id="copy" disabled>Copy result</button></div>
-        <div class="link-out empty" id="singleLink">Add a domain above to get a clickable record link.</div>
-      </div>
-    </section>
+    <!-- CONVERT -->
+    <section class="panel active" id="single">
+      <div class="field-block">
+        <label for="input">Input</label>
+        <input id="input" type="text" spellcheck="false" autocomplete="off"
+               placeholder="Paste a 15- or 18-character ID" aria-describedby="inputMeta">
+        <div id="inputMeta" class="meta hint" aria-live="polite">Waiting for input</div>
+      </div>
+      <div class="swap-row">
+        <button class="swap-btn" id="swap" title="Move result to input" aria-label="Move result to input">&#8645;</button>
+      </div>
+      <div class="field-block">
+        <label for="output">Output</label>
+        <input id="output" type="text" readonly spellcheck="false" placeholder="Result appears here" aria-describedby="outputMeta">
+        <div id="outputMeta" class="meta hint" aria-live="polite"></div>
+        <div class="btn-row"><button class="btn" id="copy" disabled>Copy result</button></div>
+        <div class="link-out empty" id="singleLink">Add a domain above to get a clickable record link.</div>
+      </div>
+    </section>
 
-    <!-- VALIDATE -->
-    <section class="panel" id="validate">
-      <div class="field-block">
-        <label for="valInput">18-character ID to check</label>
-        <input id="valInput" type="text" spellcheck="false" autocomplete="off"
-               placeholder="Paste an 18-character ID" aria-describedby="valMeta">
-        <div id="valMeta" class="meta hint" aria-live="polite">Recomputes the checksum from the first 15 characters</div>
-        <div class="link-out empty" id="valLink"></div>
-      </div>
-    </section>
+    <!-- VALIDATE -->
+    <section class="panel" id="validate">
+      <div class="field-block">
+        <label for="valInput">18-character ID to check</label>
+        <input id="valInput" type="text" spellcheck="false" autocomplete="off"
+               placeholder="Paste an 18-character ID" aria-describedby="valMeta">
+        <div id="valMeta" class="meta hint" aria-live="polite">Recomputes the checksum from the first 15 characters</div>
+        <div class="link-out empty" id="valLink"></div>
+      </div>
+    </section>
 
-    <!-- BULK -->
-    <section class="panel" id="bulk">
-      <div class="field-block">
-        <label for="bulkInput">One ID per line</label>
-        <textarea id="bulkInput" spellcheck="false" placeholder="0035000000AbCdE&#10;001D000000IqhSLIAZ&#10;..."></textarea>
-        <div class="btn-row">
-          <button class="btn" id="bulkRun">Convert all</button>
-          <button class="btn" id="bulkCopy" disabled>Copy all</button>
-          <button class="btn" id="bulkCsv" disabled>Download CSV</button>
-        </div>
-        <div id="bulkMeta" class="meta hint" aria-live="polite"></div>
-      </div>
-      <div id="bulkResultWrap"></div>
-    </section>
+    <!-- BULK CONVERT -->
+    <section class="panel" id="bulk">
+      <div class="field-block">
+        <label for="bulkInput">One ID per line</label>
+        <textarea id="bulkInput" spellcheck="false" placeholder="0035000000AbCdE&#10;001D000000IqhSLIAZ&#10;..."></textarea>
+        <div class="btn-row">
+          <button class="btn" id="bulkRun">Convert all</button>
+          <button class="btn" id="bulkCopy" disabled>Copy all</button>
+          <button class="btn" id="bulkCsv" disabled>Download CSV</button>
+        </div>
+        <div id="bulkMeta" class="meta hint" aria-live="polite"></div>
+      </div>
+      <div id="bulkResultWrap"></div>
+    </section>
 
-    <p class="footer-link">
-    Built by <a href="https://github.com/nano-bot01" target="_blank" rel="noopener">nano-bot01</a>
-  </p>
+    <!-- SMART BULK CLEANER -->
+    <section class="panel" id="cleaner">
+      <div class="field-block">
+        <label for="cleanInput">Paste anything — logs, URLs, CSV, emails, sentences</label>
+        <textarea id="cleanInput" spellcheck="false" placeholder="e.g. https://acme.lightning.force.com/003ABC123DEF456 or &quot;contact id: 003ABC123DEF456GHI, account: 001XYZ...&quot;"></textarea>
+        <div class="btn-row">
+          <button class="btn" id="cleanRun">Extract IDs</button>
+          <button class="btn" id="cleanCopy" disabled>Copy all 18-char</button>
+        </div>
+        <div id="cleanMeta" class="meta hint" aria-live="polite">Finds and deduplicates every 15 or 18-character Salesforce ID in the text</div>
+      </div>
+      <div id="cleanResultWrap"></div>
+    </section>
 
- </main>
+    <!-- SOQL IN CLAUSE -->
+    <section class="panel" id="soql">
+      <div class="field-block">
+        <label for="soqlField">Field name</label>
+        <input id="soqlField" type="text" readonly value ="Id">
+      </div>
+      <div class="field-block">
+        <label for="soqlInput">IDs — one per line (15 or 18 char, mixed is fine)</label>
+        <textarea id="soqlInput" spellcheck="false" placeholder="003ABC123DEF456&#10;001D000000IqhSLIAZ&#10;..."></textarea>
+        <div class="btn-row">
+          <button class="btn" id="soqlGenerate">Generate</button>
+        </div>
+        <div id="soqlMeta" class="meta hint" aria-live="polite"></div>
+      </div>
+      <div id="soqlResults" style="display:none">
+        <div class="field-block">
+          <label>Single line</label>
+          <div class="code-block" id="soqlSingleOut"></div>
+          <div class="btn-row">
+            <button class="btn" id="soqlCopySingle" disabled>Copy</button>
+          </div>
+        </div>
+        <div class="field-block">
+          <label>Formatted</label>
+          <div class="code-block" id="soqlFormattedOut"></div>
+          <div class="btn-row">
+            <button class="btn" id="soqlCopyFormatted" disabled>Copy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLAIN ID -->
+    <section class="panel" id="explain">
+      <div class="field-block">
+        <label for="explainInput">Salesforce ID to explain</label>
+        <input id="explainInput" type="text" spellcheck="false" autocomplete="off"
+               placeholder="Paste a 15- or 18-character ID">
+        <div class="meta hint" style="margin-top:0.3rem">Full breakdown updates as you type.</div>
+      </div>
+      <div id="explainWrap"></div>
+    </section>
+
+  </main>
+
+  <footer class="footnote" style="max-width:620px;margin:0 auto;">
+    <p>Built by <a href="https://github.com/nano-bot01" target="_blank" rel="noopener">nano-bot01</a> &mdash; <a href="https://github.com/nano-bot01/salesforce-id-converter" target="_blank" rel="noopener">View source</a></p>
+  </footer>
 </body>
-</html>
